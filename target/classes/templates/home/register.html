@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+</head>
+<body>
+<h2>สมัครสมาชิก</h2>
+<form th:action="@{/register}" th:object="${user}" method="post">
+    <label>ชื่อ</label>
+    <input type="text" th:field="*{firstName}" required /><br/>
+    <label>นามสกุล</label>
+    <input type="text" th:field="*{lastName}" required /><br/>
+    <label>อีเมล</label>
+    <input type="email" th:field="*{email}" required /><br/>
+    <label>เบอร์โทรติดต่อ</label>
+    <input type="text" th:field="*{phoneNumber}" required/><br/>
+    <label>ชื่อผู้ใช้ / Username</label>
+    <input type="text" th:field="*{username}" required/><br/>
+    <label>รหัสผ่าน / Password</label>
+    <input type="password" th:field="*{password}" required/><br/>
+    <button type="submit">สมัครสมาชิก</button>
+</form>
+<p th:if="${error}" th:text="${error}"></p>
+<p>มีบัญชีแล้วใช่หรือไม่?  <a th:href="@{/login}">กดเข้าสู่ระบบที่นี่</a></p>
+</body>
+</html>
