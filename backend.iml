@@ -3,6 +3,8 @@
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$" dumb="true">
       <excludeFolder url="file://$MODULE_DIR$/src/main/resources/templates" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/resources/static/assets/css" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/resources/static/assets/js" />
     </content>
   </component>
 </module>

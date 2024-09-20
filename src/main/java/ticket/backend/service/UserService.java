@@ -38,6 +38,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public void updateUser(UserEntity userEntity) {
+        userRepository.save(userEntity);
+    }
+
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
