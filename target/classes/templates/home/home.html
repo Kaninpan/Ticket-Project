@@ -12,15 +12,15 @@
 <body>
 
 <div class="header d-flex align-items-center justify-content-end px-3">
-  <h1 class="h4 mb-0">ระบบแจ้งปัญหาการใช้งาน</h1>
+  <h1 class="h5 mb-0"><b>ระบบแจ้งปัญหาการใช้งาน</b></h1>
 </div>
   <div>
     <div th:replace="~{fragments/mmenubar :: mmenubar}"></div>
   </div>
 
 <div class="content">
-  <h2 class="text-center">Welcome Home!</h2>
-  <p class="text-center">You are successfully logged in.</p>
+  <h2>Welcome Home!</h2>
+  <p>You are successfully logged in.</p>
 
   <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
     <p th:text="${success}"></p>
