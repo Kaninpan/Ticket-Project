@@ -2,13 +2,16 @@ package ticket.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
@@ -31,11 +34,14 @@ public class UserEntity {
     @Column(name = "role", nullable = false, length = 20)
     private String role;
 
-    public Integer getId() {
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -93,6 +99,14 @@ public class UserEntity {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
 }

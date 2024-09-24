@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Lazy;
 import ticket.backend.entity.UserEntity;
 import ticket.backend.repository.UserRepository;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -52,6 +54,17 @@ public class UserService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
+        updateLastLogin(username);
         return new UserDetailsImpl(userEntity);
+    }
+
+    public void updateLastLogin(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity != null) {
+            userEntity.setLastLogin(LocalDateTime.now());
+            userRepository.save(userEntity);
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 }

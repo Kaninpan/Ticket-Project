@@ -42,8 +42,8 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .permitAll()
-                        .logoutUrl("/logout") // URL สำหรับ logout
-                        .logoutSuccessUrl("/officer?logout") // URL หลังจาก logout สำเร็จ
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/officer?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 );
