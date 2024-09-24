@@ -11,28 +11,40 @@
 <div class="register-container">
     <h2>สมัครสมาชิก</h2>
     <form th:action="@{/register}" th:object="${user}" method="post">
-        <div class="form-group">
-            <label>ชื่อ</label>
-            <input type="text" th:field="*{firstName}" placeholder="กรอกชื่อ" required maxlength="60" />
+        <div class="form-row-regis">
+            <!-- Group 1: ชื่อ, นามสกุล -->
+            <div class="form-group-regis">
+                <label>ชื่อ</label>
+                <input type="text" th:field="*{firstName}" placeholder="กรอกชื่อ" required maxlength="60" />
+            </div>
+            <div class="divider-regis"></div> <!-- Divider between columns -->
+            <div class="form-group-regis">
+                <label>นามสกุล</label>
+                <input type="text" th:field="*{lastName}" placeholder="กรอกนามสกุล" required maxlength="60" />
+            </div>
         </div>
-        <div class="form-group">
-            <label>นามสกุล</label>
-            <input type="text" th:field="*{lastName}" placeholder="กรอกนามสกุล" required maxlength="60" />
+
+        <div class="form-row-regis">
+            <!-- Group 2: อีเมล, เบอร์โทร -->
+            <div class="form-group-regis">
+                <label>อีเมล</label>
+                <input type="email" th:field="*{email}" placeholder="กรุณากรอกอีเมล (Email) ของคุณ" required maxlength="60"/>
+            </div>
+            <div class="divider-regis"></div> <!-- Divider between columns -->
+            <div class="form-group-regis">
+                <label>เบอร์โทรติดต่อ</label>
+                <input type="text" th:field="*{phoneNumber}" required maxlength="12" placeholder="กรุณากรอกเบอร์โทรศัพท์ของคุณ" oninput="formatPhone(this)" />
+            </div>
         </div>
-        <div class="form-group">
-            <label>เบอร์โทรติดต่อ</label>
-            <input type="text" th:field="*{phoneNumber}" required maxlength="12"  placeholder="กรุณากรอกเบอร์โทรศัพท์ของคุณ" oninput="formatPhone(this)"  />
-        </div>
-        <div class="form-group">
-            <label>อีเมล</label>
-            <input type="email" th:field="*{email}" placeholder="กรุณากรอกอีเมล (Email) ของคุณ" required maxlength="60"/>
-        </div>
-        <div class="form-group">
-            <label>ชื่อผู้ใช้ / Username</label>
-            <input type="text" th:field="*{username}" required minlength="5" placeholder="กรุณากรอกชื่อผู้ใช้ (Username) ของคุณ" oninput="validateUsername(this)" maxlength="15"/>
-        </div>
-        <div class="form-group">
-            <div class="form-group">
+
+        <div class="form-row-regis">
+            <!-- Group 3: Username, password -->
+            <div class="form-group-regis">
+                <label>ชื่อผู้ใช้ / Username</label>
+                <input type="text" th:field="*{username}" required minlength="5" placeholder="กรุณากรอกชื่อผู้ใช้ (Username) ของคุณ" oninput="validateUsername(this)" maxlength="15"/>
+            </div>
+            <div class="divider-regis"></div> <!-- Divider between columns -->
+            <div class="form-group-regis">
                 <label>รหัสผ่าน / Password</label>
                 <input type="password" th:field="*{password}" id="password" required
                        placeholder="กรุณากรอกรหัสผ่าน (Password) ของท่าน"
@@ -40,8 +52,10 @@
                        title="รหัสผ่านต้องมีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ 1 ตัว, อักขระพิเศษ 1 ตัว, ตัวเลข, และต้องมีความยาว 8 ตัวขึ้นไป ยกตัวอย่าง Abcde@12" maxlength="20" />
             </div>
         </div>
-        <p>ข้อมูลส่วนบุคคลของคุณจะถูกนำไปใช้เพื่อจัดการการเข้าถึงบัญชีของคุณและวัตถุประสงค์อื่นๆที่อธิบายไว้ใน <a th:onclick="openPrivacyPolicy()" class="custom-cursor">นโยบายความเป็นส่วนตัว</a></p><br>
-        <div class="form-group">
+        <div class="privicy-regis">
+            <p>ข้อมูลส่วนบุคคลของคุณจะถูกนำไปใช้เพื่อจัดการการเข้าถึงบัญชีของคุณและวัตถุประสงค์อื่นๆที่อธิบายไว้ใน <a th:onclick="openPrivacyPolicy()" class="custom-cursor">นโยบายความเป็นส่วนตัว</a></p>
+        </div>
+        <div class="form-group-regis">
             <button type="submit">สมัครสมาชิก</button>
         </div>
 
@@ -50,6 +64,8 @@
             <a th:href="@{/officer}">กดเข้าสู่ระบบที่นี่</a>
         </p>
     </form>
+
+
 
     <!--hidden javascript -->
     <div id="clock" hidden></div>
