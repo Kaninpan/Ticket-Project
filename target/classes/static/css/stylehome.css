@@ -14,18 +14,18 @@ body {
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove default margin */
-    height: 100vh; /* Full viewport height */
-    display: flex; /* Enable flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Container for forms and messages */
 .login-container, .register-container{
-    max-width: 48%; /* Adjust the percentage as needed */
-    width: 100%; /* Ensure it takes full width up to the max-width */
+    max-width: 48%;
+    width: 100%;
     padding: 20px;
     background: #fff;
     border-radius: 8px;
@@ -154,4 +154,54 @@ input {
 .privicy-regis{
     margin-top: 3%;
     margin-bottom: 3%;
+}
+/* สำหรับหน้าจอขนาดใหญ่ เช่น Desktop */
+@media (min-width: 992px) {
+    .login-container, .register-container {
+        max-width: 48%;
+    }
+
+    .form-row-regis {
+        justify-content: space-between;
+    }
+}
+
+/* สำหรับหน้าจอ Tablet */
+@media (max-width: 991px) and (min-width: 768px) {
+    .login-container, .register-container {
+        max-width: 70%;
+    }
+
+    .form-group-regis {
+        min-width: 45%;
+    }
+
+    .divider-regis {
+        display: none;
+    }
+}
+
+/* สำหรับหน้าจอมือถือขนาดเล็ก */
+@media (max-width: 767px) {
+    body {
+        padding: 10px;
+    }
+
+    .login-container, .register-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .form-row-regis {
+        flex-direction: column;
+    }
+
+    .form-group-regis {
+        min-width: 100%;
+        margin: 0;
+    }
+
+    button[type="submit"], input[type="submit"] {
+        font-size: 14px;
+    }
 }
