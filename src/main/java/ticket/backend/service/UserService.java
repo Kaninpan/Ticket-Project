@@ -11,6 +11,7 @@ import ticket.backend.entity.UserEntity;
 import ticket.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -54,7 +55,8 @@ public class UserService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        userRepository.updateLastLogin(username);
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bangkok"));
+        userRepository.updateLastLogin(username, now);
         return new UserDetailsImpl(userEntity);
     }
 }
