@@ -1,11 +1,16 @@
-/*Home*/
 @import url('https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-body{
+
+body {
     background-color: #e4e8e8;
     font-family: "Prompt", sans-serif;
     font-weight: 400;
     font-style: normal;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
+/* Sidebar */
 .sidebar {
     font-family: "Prompt", sans-serif;
     font-weight: 400;
@@ -22,23 +27,33 @@ body{
     flex-direction: column;
     justify-content: space-between;
     color: #ffffff;
+    transition: width 0.3s;
 }
+
 .sidebar .nav-link {
     font-family: "Prompt", sans-serif;
     font-weight: 400;
     font-style: normal;
     color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
 }
+
 .sidebar .nav-link.active {
     background-color: #343a40;
 }
+
+/* Content */
 .content {
     font-family: "Prompt", sans-serif;
     font-weight: 400;
     font-style: normal;
     margin-left: 250px;
     padding: 20px;
+    transition: margin-left 0.3s;
 }
+
+/* Header */
 .header {
     font-family: "Prompt", sans-serif;
     font-weight: 400;
@@ -48,44 +63,11 @@ body{
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: flex-end;
-}
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px;
-    }
-    .content {
-        margin-left: 200px;
-    }
+    align-items: center;
+    padding: 0 20px;
 }
 
-@media (max-width: 576px) {
-    .sidebar {
-        width: 150px;
-    }
-    .content {
-        margin-left: 150px;
-    }
-}
-
-@media (max-width: 768px) {
-    .header h1 {
-        font-size: 20px;
-    }
-}
-
-
-@media (max-width: 576px) {
-    .header h1 {
-        font-size: 16px;
-    }
-}
-
-
-@media (max-width: 375px) {
-    .header h1 {
-        font-size: 14px;
-    }
-}
+/* Form Elements */
 .form-group {
     margin-bottom: 15px;
 }
@@ -126,25 +108,7 @@ input[type="password"]:focus {
     background-color: #0056b3;
 }
 
-.secondary-button {
-    display: inline-block;
-    margin-top: 10px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.secondary-button:hover {
-    text-decoration: underline;
-}
-.note {
-    font-weight: bold;
-    text-decoration: underline;
-    color: #555;
-    margin: 10px 0;
-}
-.form-group {
-    margin-bottom: 20px;
-}
+/* Secondary Button */
 .secondary-button {
     display: inline-block;
     margin-top: 10px;
@@ -161,32 +125,79 @@ input[type="password"]:focus {
     background-color: #dc3545;
     color: #ffffff;
 }
-#confirmModal .modal-title,
-#confirmModal .modal-body,
-#confirmModal .modal-footer {
-    font-family: "Prompt", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
 
+/* Form Row */
 .form-row {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 100%;
+    gap: 10px;
 }
 
 .form-group {
-    width: 35%;
-    margin-right: 10px;
+    flex: 1;
 }
 
-.form-group:last-child {
-    margin-right: 0;
+
+
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 200px;
+    }
 }
+
 
 @media (max-width: 768px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .content {
+        margin-left: 150px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
     .form-group {
-        margin-right: 5px;
         width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+@media (max-width: 576px) {
+    .sidebar {
+        position: absolute;
+        left: -250px;
+        transition: left 0.3s;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .header h1 {
+        font-size: 16px;
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+}
+
+@media (max-width: 375px) {
+    .header h1 {
+        font-size: 14px;
     }
 }

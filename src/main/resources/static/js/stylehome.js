@@ -1,3 +1,10 @@
+// / ฟังก์ชันเปิด/ปิด Sidebar
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.toggle-sidebar-btn').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('show');
+    });
+});
+// =========================================================================================
 // Alert Edit Profile success
 setTimeout(function() {
     var alertElement = document.getElementById('successAlert');
