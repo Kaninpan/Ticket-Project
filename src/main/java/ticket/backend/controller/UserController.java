@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new UserEntity());
-        model.addAttribute("error", "");
+//        model.addAttribute("error", "");
         return "home/register";
     }
 

@@ -24,6 +24,7 @@
     </div>
 
     <div id="error-message" class="error-message" th:if="${param.error}">
+    <p th:if="${success}" class="success-message" th:text="${success}"></p>
       <p>ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</p>
     </div>
 

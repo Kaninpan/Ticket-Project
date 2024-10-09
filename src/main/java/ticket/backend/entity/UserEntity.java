@@ -1,48 +1,61 @@
 package ticket.backend.entity;
 
 import jakarta.persistence.*;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users") // ตรวจสอบให้แน่ใจว่าชื่อตารางนี้ตรงกับฐานข้อมูล
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @Column(name = "username", nullable = false, length = 50)
+    @Column(name = "username", length = 50, nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 100)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "first_name", nullable = false, length = 50)
+    @Column(name = "first_name", length = 50)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
+    @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Column(name = "phone_number", nullable = false, length = 20)
+    @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
-    @Column(name = "role", nullable = false, length = 20)
+    @Column(name = "role", length = 20)
     private String role;
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
-    public Long getId() {
-        return id;
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
+
+    @Column(name = "update_by")
+    private Integer updateBy;
+
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
+
+    @Column(name = "create_by")
+    private Integer createBy;
+
+    @Column(name = "status_id")
+    private Integer statusId;
+
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -109,4 +122,43 @@ public class UserEntity {
         this.lastLogin = lastLogin;
     }
 
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Integer getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(Integer updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(Integer createBy) {
+        this.createBy = createBy;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
+    }
 }

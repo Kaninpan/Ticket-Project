@@ -11,7 +11,6 @@ import ticket.backend.entity.UserEntity;
 import ticket.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -32,6 +31,12 @@ public class UserService implements UserDetailsService {
             throw new IllegalArgumentException("ไม่สามารถดำเนินการได้ เนื่องจากมีอีเมลใช้งานอยู่แล้ว");
         }
 
+
+        userEntity.setCreateDate(LocalDateTime.now());
+        userEntity.setCreateBy(1);
+        userEntity.setUpdateDate(LocalDateTime.now());
+        userEntity.setUpdateBy(1);
+        userEntity.setStatusId(1);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         userEntity.setRole("User");
         userRepository.save(userEntity);
@@ -42,6 +47,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateUser(UserEntity userEntity) {
+        userEntity.setUpdateDate(LocalDateTime.now());
         userRepository.save(userEntity);
     }
 
@@ -55,8 +61,7 @@ public class UserService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Bangkok"));
-        userRepository.updateLastLogin(username, now);
+        userRepository.updateLastLogin(username, LocalDateTime.now());
         return new UserDetailsImpl(userEntity);
     }
 }

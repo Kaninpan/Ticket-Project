@@ -17,7 +17,7 @@
                 <label>ชื่อ</label>
                 <input type="text" th:field="*{firstName}" placeholder="กรอกชื่อ" required maxlength="60" />
             </div>
-            <div class="divider-regis"></div> <!-- Divider between columns -->
+            <div class="divider-regis"></div>
             <div class="form-group-regis">
                 <label>นามสกุล</label>
                 <input type="text" th:field="*{lastName}" placeholder="กรอกนามสกุล" required maxlength="60" />
@@ -30,7 +30,7 @@
                 <label>อีเมล</label>
                 <input type="email" th:field="*{email}" placeholder="กรุณากรอกอีเมล (Email) ของคุณ" required maxlength="60"/>
             </div>
-            <div class="divider-regis"></div> <!-- Divider between columns -->
+            <div class="divider-regis"></div>
             <div class="form-group-regis">
                 <label>เบอร์โทรติดต่อ</label>
                 <input type="text" th:field="*{phoneNumber}" required maxlength="12" placeholder="กรุณากรอกเบอร์โทรศัพท์ของคุณ" oninput="formatPhone(this)" />
@@ -43,7 +43,7 @@
                 <label>ชื่อผู้ใช้ / Username</label>
                 <input type="text" th:field="*{username}" required minlength="5" placeholder="กรุณากรอกชื่อผู้ใช้ (Username) ของคุณ" oninput="validateUsername(this)" maxlength="15"/>
             </div>
-            <div class="divider-regis"></div> <!-- Divider between columns -->
+            <div class="divider-regis"></div>
             <div class="form-group-regis">
                 <label>รหัสผ่าน / Password</label>
                 <input type="password" th:field="*{password}" id="password" required
