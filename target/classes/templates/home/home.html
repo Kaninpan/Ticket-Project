@@ -1,33 +1,109 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>หน้าแรก</title>
   <link rel="stylesheet" type="text/css" href="/css/stylehome1.css">
   <script src="/js/stylehome.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
 
+<!-- Header Section -->
 <div class="header d-flex align-items-center justify-content-between px-3">
   <button class="toggle-sidebar-btn btn btn-light">☰</button>
   <h1 class="h5 mb-0"><b>ระบบแจ้งปัญหาการใช้งาน</b></h1>
 </div>
-  <div>
-    <div th:replace="~{fragments/mmenubar :: mmenubar}"></div>
+
+<!-- Menu Bar -->
+<div>
+  <div th:replace="~{fragments/mmenubar :: mmenubar}"></div>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+  <h2>ยินดีต้อนรับ!</h2>
+  <p>คุณได้เข้าสู่ระบบสำเร็จ</p>
+
+  <!-- Status Section -->
+  <div class="row">
+    <div class="col-md-4">
+      <div class="alert alert-info p-4 h-100" style="font-size: 1.3rem;">
+        <strong>ปัญหาที่รอการแก้ไข : </strong> <span th:text="${pendingCount}">0</span> รายการ
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="alert alert-warning p-4 h-100" style="font-size: 1.3rem;">
+        <strong>ปัญหากำลังดำเนินการ : </strong> <span th:text="${inProgressCount}">0</span> รายการ
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="alert alert-success p-4 h-100" style="font-size: 1.30rem;">
+        <strong>ปัญหาแก้ไขเสร็จสิ้น : </strong> <span th:text="${resolvedCount}">0</span> รายการ
+      </div>
+    </div>
   </div>
 
-<div class="content">
-  <h2>Welcome Home!</h2>
-  <p>You are successfully logged in.</p>
+  <!-- Total Issues Section -->
+  <div class="row mt-4">
+    <div class="col-4">
+      <div class="alert alert-secondary p-4" style="font-size: 1.30rem;">
+        <strong>รวมรายการแจ้งปัญหาทั้งหมด : </strong> <span th:text="${totalCount}">0</span> รายการ
+      </div>
+      <div class="row mt-6">
+        <p class="text-muted p-4">ข้อมูลอัพเดท ณ วันที่ <span th:text="${updateDate}"></span></p>
+      </div>
+    </div>
+  </div>
 
-  <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
+  <!-- News Section (Moved to bottom) -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="p-4" style="background-color: #585858; color: #ffffff; border-radius: 0.5rem;">
+        <h5 class="mb-4">เว็บไซต์ข่าวสารต่าง ๆ</h5>
+        <div class="d-flex flex-wrap justify-content-start gap-4" style="padding-left: 0;">
+          <div>
+            <a href="https://newskm.moi.go.th/" target="_blank">
+              <img src="./photo/Group.png" alt="Group News" style="max-height: 86px;">
+            </a>
+          </div>
+          <div>
+            <a href="https://www.khaosod.co.th" target="_blank">
+              <img src="/photo/KHAOSOD.png" alt="Khaosod News" style="max-height: 86px;">
+            </a>
+          </div>
+          <div>
+            <a href="https://www.bangkokpost.com/" target="_blank">
+              <img src="/photo/BangkokPost.svg.png" alt="Bangkokpost" style="max-height: 86px;">
+            </a>
+          </div>
+          <div>
+            <a href="https://www.prd.go.th" target="_blank">
+              <img src="/photo/PRD.png" alt="PRD" style="max-height: 86px;">
+            </a>
+          </div>
+          <!-- เพิ่มช่องใหม่ที่นี่ -->
+          <div>
+            <a href="https://www.1111.go.th/" target="_blank">
+              <img src="/photo/opm.png" alt="ติดต่อนายยก" style="max-height: 80px;">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Alert (if any) -->
+  <!-- <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
     <p th:text="${success}"></p>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-
+  </div> -->
 </div>
+
 </body>
+
 </html>
