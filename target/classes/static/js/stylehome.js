@@ -1,17 +1,17 @@
 // / ฟังก์ชันเปิด/ปิด Sidebar
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector('.toggle-sidebar-btn').addEventListener('click', function() {
+    document.querySelector('.toggle-sidebar-btn').addEventListener('click', function () {
         document.querySelector('.sidebar').classList.toggle('show');
     });
 });
 // =========================================================================================
 // Alert Edit Profile success
-setTimeout(function() {
+setTimeout(function () {
     var alertElement = document.getElementById('successAlert');
     if (alertElement) {
         alertElement.classList.remove('show');
         alertElement.classList.add('fade');
-        setTimeout(function() {
+        setTimeout(function () {
             alertElement.style.display = 'none';
         }, 150); // เวลาที่ใช้ในการทำให้จางลง
     }
@@ -20,16 +20,16 @@ setTimeout(function() {
 // =========================================================================================
 
 // Alert Exit
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('logoutButton').onclick = function() {
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById('logoutButton').onclick = function () {
         document.getElementById('logoutAlert').classList.remove('d-none');
     };
 
-    document.getElementById('cancelButton').onclick = function() {
+    document.getElementById('cancelButton').onclick = function () {
         document.getElementById('logoutAlert').classList.add('d-none');
     };
 
-    document.getElementById('confirmButton').onclick = function() {
+    document.getElementById('confirmButton').onclick = function () {
         document.getElementById('logoutForm').submit();
     };
 });
@@ -45,7 +45,7 @@ function validateUsername(input) {
 }
 
 let formElement;
-const modalMessage = "คุณต้องการที่จะแก้ไขข้อมูลส่วนตัว <br> โดยที่ไม่ต้องการแก้ไขรหัสผ่านใช่หรือไม่ ? <br><br> หากแก้ไขทั้ง 2 ส่วนสามารถกดที่ปุ่ม <b>ตกลง</b>";
+const modalMessage = "คุณต้องการที่จะแก้ไขข้อมูลส่วนตัว <br> โดยที่ไม่ต้องการแก้ไขรหัสผ่านใช่หรือไม่ ? <br><br> หากแก้ไขทั้ง 2 ส่วนหรือแก้ไขเพียงส่วนเดียวสามารถกดที่ปุ่ม <b>ตกลง</b>";
 
 function showConfirmModal(event) {
     event.preventDefault();
@@ -180,6 +180,7 @@ function openPrivacyPolicy() {
     </html>
     `);
 }
+
 // =====================================================================================================
 // ปฏิทินประจำวัน
 function updateTime() {
@@ -220,4 +221,18 @@ function updateTime() {
 setInterval(updateTime, 1000); // อัปเดตทุก 1 วินาที
 window.onload = updateTime; // โหลดเวลาทันทีเมื่อหน้าเปิด
 
+// =====================================================================================================
+// Alert ก่อนกดส่งแจ้งปัญหาการใช้งาน
+document.addEventListener('DOMContentLoaded', function() {
+    AlertProblem();
+});
+
+function AlertProblem() {
+    const message = "โปรดตรวจสอบการกรอกข้อมูลการแจ้งปัญหาของท่านอย่างถี่ถ้วน<br>หากดำเนินการกดส่งข้อมูลแล้วจะไม่สามารถดำเนินการแก้ไขได้ <br><br>หากท่านมั่นใจในการตรวจสอบโปรดกดที่ปุ่ม <b>ตกลง</b> เพื่อส่งข้อมูลในการแจ้งปัญหาของท่าน";
+    document.getElementById('modalMessage').innerHTML = message;
+    $('#confirmationModal').modal('show');
+    document.getElementById('confirmSubmit').addEventListener('click', function() {
+        document.getElementById('reportForm').submit(); // ส่งฟอร์ม
+    });
+}
 

@@ -88,9 +88,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/home")
-    public String home() {
-        return "home/home";
-    }
+//    @GetMapping("/home")
+//    public String home() {
+//        return "home/home";
+//    }
 
 }

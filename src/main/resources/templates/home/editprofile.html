@@ -64,29 +64,34 @@
       <input type="submit" value="แก้ไขข้อมูล" class="submit-button" onclick="showConfirmModal(event)"/>
       <a href="/home" class="secondary-button">ย้อนกลับ</a>
     </div>
+
+
+    <!--===============================================Alert Popup Edit ================================================-->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmModalLabel">ยืนยันการแก้ไขข้อมูล</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="confirmModalBody"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="confirmEdit()">ตกลง</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--================================================================================================================-->
+
+
   </form>
 </div>
 
 
 
 
-<!--===============================================Alert Popup Edit ================================================-->
-<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmModalLabel">ยืนยันการแก้ไขข้อมูล</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="confirmModalBody"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="confirmEdit()">ตกลง</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--================================================================================================================-->
+
 
 
   <div class="alert alert-success" th:if="${success}">
