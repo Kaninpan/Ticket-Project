@@ -45,7 +45,7 @@ function validateUsername(input) {
 }
 
 let formElement;
-const modalMessage = "คุณต้องการที่จะแก้ไขข้อมูลส่วนตัว <br> โดยที่ไม่ต้องการแก้ไขรหัสผ่านใช่หรือไม่ ? <br><br> หากแก้ไขทั้ง 2 ส่วนสามารถกดที่ปุ่ม <b>ตกลง</b>";
+const modalMessage = "คุณต้องการที่จะแก้ไขข้อมูลส่วนตัว <br> โดยที่ไม่ต้องการแก้ไขรหัสผ่านใช่หรือไม่ ? <br><br> หากแก้ไขทั้ง 2 ส่วนหรือแก้ไขเพียงส่วนเดียวสามารถกดที่ปุ่ม <b>ตกลง</b>";
 
 function showConfirmModal(event) {
     event.preventDefault();
