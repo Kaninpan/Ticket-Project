@@ -20,6 +20,7 @@ import ticket.backend.service.UserDetailsImpl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -94,8 +95,15 @@ public class ProblemController {
     }
 
     @GetMapping("/report-problem")
-    public String showProblemList(Model model) {
-        List<ProblemEntity> problems = problemRepository.findAll();
+    public String showProblemList(Model model, Principal principal) {
+        String username = principal.getName();
+        UserEntity user = userRepository.findByUsername(username);
+        if (user == null) {
+            return "error/404";
+        }
+        String email = user.getEmail();
+        List<ProblemEntity> problems = problemRepository.findByEmail(email);
+
         model.addAttribute("problems", problems);
         return "home/report-problem";
     }

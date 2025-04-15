@@ -8,5 +8,5 @@ import java.util.List;
 public interface ProblemRepository extends JpaRepository<ProblemEntity, Long> {
 
     long countByStatusProblem(Integer statusProblem);
-
+    List<ProblemEntity> findByEmail(String email);
 }
