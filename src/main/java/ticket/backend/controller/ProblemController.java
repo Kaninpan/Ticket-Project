@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ticket.backend.entity.ProblemEntity;
 import ticket.backend.entity.UserEntity;
+import ticket.backend.repository.ProblemRepository;
 import ticket.backend.repository.UserRepository;
 import ticket.backend.service.ProblemService;
 import ticket.backend.service.UserDetailsImpl;
@@ -35,6 +36,8 @@ public class ProblemController {
     private ProblemService problemService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ProblemRepository problemRepository;
 
     @GetMapping("/problem")
     public String showProblemForm(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -90,6 +93,14 @@ public class ProblemController {
         return "redirect:/problem";
     }
 
+    @GetMapping("/report-problem")
+    public String showProblemList(Model model) {
+        List<ProblemEntity> problems = problemRepository.findAll();
+        model.addAttribute("problems", problems);
+        return "home/report-problem";
+    }
+
+
     @GetMapping("/home")
     public String showHomePage(Model model) {
         long pendingCount = problemService.getCountByStatusProblem(1);
@@ -115,6 +126,7 @@ public class ProblemController {
 
         return "home/home";
     }
+
 
 }
 

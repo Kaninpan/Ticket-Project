@@ -236,3 +236,16 @@ function AlertProblem() {
     });
 }
 
+// =====================================================================================================
+// เพิ่มการฟังเหตุการณ์คลิกปุ่ม "แสดงรูปภาพ"
+document.addEventListener("DOMContentLoaded", function () {
+    var imageButtons = document.querySelectorAll('[data-bs-target="#imageModal"]');
+    imageButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var imageUrl = button.getAttribute('data-image');
+            document.getElementById('modalImage').src = imageUrl;
+        });
+    });
+});
+
+

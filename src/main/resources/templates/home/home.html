@@ -31,6 +31,9 @@
 
   <!-- Status Section -->
   <div class="row">
+    <div class="row mt-4">
+    <h4>สรุปยอดการแจ้งปัญหาการใช้งาน</h4>
+    </div>
     <div class="col-md-4">
       <div class="alert alert-info p-4 h-100" style="font-size: 1.3rem;">
         <strong>ปัญหาที่รอการแก้ไข : </strong> <span th:text="${pendingCount}">0</span> รายการ
@@ -38,12 +41,12 @@
     </div>
     <div class="col-md-4">
       <div class="alert alert-warning p-4 h-100" style="font-size: 1.3rem;">
-        <strong>ปัญหากำลังดำเนินการ : </strong> <span th:text="${inProgressCount}">0</span> รายการ
+        <strong>ปัญหาที่กำลังดำเนินการ : </strong> <span th:text="${inProgressCount}">0</span> รายการ
       </div>
     </div>
     <div class="col-md-4">
       <div class="alert alert-success p-4 h-100" style="font-size: 1.30rem;">
-        <strong>ปัญหาแก้ไขเสร็จสิ้น : </strong> <span th:text="${resolvedCount}">0</span> รายการ
+        <strong>ปัญหาที่แก้ไขเสร็จสิ้น : </strong> <span th:text="${resolvedCount}">0</span> รายการ
       </div>
     </div>
   </div>
