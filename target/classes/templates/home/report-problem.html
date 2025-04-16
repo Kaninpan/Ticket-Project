@@ -22,45 +22,58 @@
 <div class="content">
     <h2>รายงานการแจ้งปัญหาการใช้งาน</h2>
 
-    <!-- Table Section -->
+    <div class="d-flex justify-content-end mb-3 mt-3 align-items-center">
+        <label for="searchInput" class="me-2 mb-0">ค้นหา : </label>
+        <input type="text" id="searchInput" class="form-control w-50" style="max-width: 400px; height: 38px;" placeholder="ค้นหาชื่อหรือประเภทปัญหา..." onkeyup="searchData()">
+        <select id="statusFilter" class="form-control ms-2 w-50" style="max-width: 250px; height: 38px;" onchange="filterStatus()">
+            <option value="">ทั้งหมด</option>
+            <option value="1">ปัญหาที่รอการแก้ไข</option>
+            <option value="2">ปัญหาที่กำลังดำเนินการ</option>
+            <option value="3">ปัญหาที่แก้ไขเสร็จสิ้น</option>
+        </select>
+    </div>
+
     <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
+        <div id="resultCount" class="mb-3 text-muted">มีทั้งหมด 0 รายการ</div>
+        <table class="table table-bordered table-hover align-middle" id="problemsTable">
             <thead class="table-light">
             <tr>
+                <th>ลำดับ</th>
                 <th>ชื่อ</th>
                 <th>ประเภทปัญหา</th>
                 <th>รายละเอียด</th>
+                <th>รูปภาพ</th>
                 <th>สถานะ</th>
                 <th>วันที่แจ้ง</th>
-                <th>รูปภาพ</th> <!-- เพิ่มคอลัมน์นี้สำหรับแสดงรูปภาพ -->
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="item : ${problems}">
+            <tbody id="problemsTbody">
+            <tr th:each="item, iterStat : ${problems}" class="problem-row">
+                <td th:text="${iterStat.count}" class="text-center"></td>
                 <td th:text="${item.firstName + ' ' + item.lastName}"></td>
                 <td th:text="${item.issueType}"></td>
                 <td th:text="${item.description}"></td>
                 <td>
-                    <span th:switch="${item.statusProblem}">
-                        <span th:case="1" class="badge bg-warning text-dark" style="font-weight: normal; font-size: 1rem;">ปัญหาที่รอการแก้ไข</span>
-                        <span th:case="2" class="badge bg-info text-dark" style="font-weight: normal; font-size: 1rem;">ปัญหาที่กำลังดำเนินการ</span>
-                        <span th:case="3" class="badge bg-success" style="font-weight: normal; font-size: 1rem;">ปัญหาที่แก้ไขเสร็จสิ้น</span>
-                    </span>
-                </td>
-                <td th:text="${#temporals.format(item.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
-                <td>
-                    <!-- ปุ่ม "แสดงรูปภาพ" -->
                     <button th:if="${item.profileImage != null and item.profileImage != ''}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal" th:data-image="@{/uploads/{file}(file=${item.profileImage})}">
                         แสดงรูปภาพ
                     </button>
-                    <span th:unless="${item.profileImage != null and item.profileImage != ''}">
-                        ไม่ได้แนบรูปมาให้
+                    <span th:unless="${item.profileImage != null and item.profileImage != ''}">ไม่ได้แนบรูปมาให้</span>
+                </td>
+                <td>
+                    <span th:switch="${item.statusProblem}">
+                        <span th:case="1" class="badge bg-warning text-dark status-badge" style="font-weight: normal; font-size: 1rem;">ปัญหาที่รอการแก้ไข</span>
+                        <span th:case="2" class="badge bg-info text-dark status-badge" style="font-weight: normal; font-size: 1rem;">ปัญหาที่กำลังดำเนินการ</span>
+                        <span th:case="3" class="badge bg-success status-badge" style="font-weight: normal; font-size: 1rem;">ปัญหาที่แก้ไขเสร็จสิ้น</span>
                     </span>
                 </td>
+                <td th:text="${#temporals.format(item.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
             </tr>
             </tbody>
+
         </table>
     </div>
+
+    <div id="pagination" class="d-flex justify-content-center mt-3"></div>
 
     <!-- Modal for Image Display -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -77,5 +90,9 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
 </body>
 </html>

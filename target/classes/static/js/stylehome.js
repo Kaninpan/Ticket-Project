@@ -248,4 +248,159 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// =====================================================================================================
+// เรียกใช้เมื่อมีการค้นหาหรือเลือกสถานะ
+function searchData() {
+    applySearchAndFilter();
+}
+
+function filterStatus() {
+    applySearchAndFilter();
+}
+
+// ฟังก์ชันรวม: ค้นหา + กรอง + รีเซ็ตลำดับ
+function applySearchAndFilter() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const filterValue = document.getElementById('statusFilter').value;
+    const rows = document.querySelectorAll('.problem-row');
+
+    let count = 0;
+
+    rows.forEach(row => {
+        const name = row.cells[1].textContent.toLowerCase();           // ชื่อ
+        const issueType = row.cells[2].textContent.toLowerCase();      // ประเภทปัญหา
+        const description = row.cells[3].textContent.toLowerCase();   // รายละเอียด
+        const statusText = row.querySelector('.status-badge').textContent.trim(); // สถานะ
+
+        const matchSearch = name.includes(input) || issueType.includes(input) || description.includes(input);
+        const matchStatus = filterValue === "" || statusText.includes(getStatusText(filterValue));
+
+        if (matchSearch && matchStatus) {
+            row.style.display = '';
+            count++;
+            row.cells[0].textContent = count; // รีเซ็ตลำดับ (column ลำดับอยู่ที่ cell[0])
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    document.getElementById('resultCount').textContent = `มีทั้งหมด ${count} รายการ`;
+}
+
+// ฟังก์ชันแปลงรหัสสถานะเป็นข้อความ
+function getStatusText(statusCode) {
+    switch (statusCode) {
+        case '1': return 'ปัญหาที่รอการแก้ไข';
+        case '2': return 'ปัญหาที่กำลังดำเนินการ';
+        case '3': return 'ปัญหาที่แก้ไขเสร็จสิ้น';
+        default: return '';
+    }
+}
+
+// เมื่อโหลดหน้าจอครั้งแรก
+window.onload = function () {
+    applySearchAndFilter();
+};
+
+// =====================================================================================================
+let currentPage = 1;
+const rowsPerPage = 10;
+
+let filteredRows = []; // เพื่อเก็บข้อมูลที่ผ่านการกรองแล้ว
+
+function paginateTable() {
+    // ใช้ filteredRows แทนการเลือกทั้งหมด
+    const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+    // ซ่อนแถวทั้งหมดก่อน
+    const rows = document.querySelectorAll('.problem-row');
+    rows.forEach(row => row.style.display = 'none');
+
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    // แสดงแถวที่อยู่ในช่วงของหน้า
+    filteredRows.slice(start, end).forEach((row, index) => {
+        row.style.display = '';
+        row.cells[0].textContent = start + index + 1; // อัปเดตลำดับ
+    });
+
+    document.getElementById('resultCount').textContent =
+        `มีทั้งหมด ${filteredRows.length} รายการ - แสดงหน้า ${currentPage} จาก ${totalPages}`;
+
+    renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = ''; // ล้างเนื้อหาภายใน
+
+    // ปุ่มก่อนหน้า
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = 'ก่อนหน้า';
+    prevBtn.className = 'btn btn-dark me-2';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            paginateTable();
+        }
+    };
+    pagination.appendChild(prevBtn);
+
+    // ปุ่มถัดไป
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = 'ถัดไป';
+    nextBtn.className = 'btn btn-dark ms-2';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            paginateTable();
+        }
+    };
+    pagination.appendChild(nextBtn);
+}
+
+
+function applySearchAndFilter() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const filterValue = document.getElementById('statusFilter').value;
+    const rows = document.querySelectorAll('.problem-row');
+
+    filteredRows = []; // ล้างข้อมูลที่กรองไว้ก่อน
+
+    rows.forEach(row => {
+        const name = row.cells[1].textContent.toLowerCase();
+        const issueType = row.cells[2].textContent.toLowerCase();
+        const description = row.cells[3].textContent.toLowerCase();
+        const statusText = row.querySelector('.status-badge').textContent.trim();
+
+        const matchSearch = name.includes(input) || issueType.includes(input) || description.includes(input);
+        const matchStatus = filterValue === "" || statusText.includes(getStatusText(filterValue));
+
+        if (matchSearch && matchStatus) {
+            filteredRows.push(row); // เก็บแถวที่ตรงเงื่อนไข
+        }
+    });
+
+    currentPage = 1; // รีเซ็ตหน้าเมื่อมีการกรอง/ค้นหา
+    paginateTable(); // เรียก paginateTable เพื่อแสดงข้อมูลหลังการกรอง
+}
+
+function getStatusText(statusCode) {
+    switch (statusCode) {
+        case '1': return 'ปัญหาที่รอการแก้ไข';
+        case '2': return 'ปัญหาที่กำลังดำเนินการ';
+        case '3': return 'ปัญหาที่แก้ไขเสร็จสิ้น';
+        default: return '';
+    }
+}
+
+window.onload = function () {
+    applySearchAndFilter(); // เรียกใช้ applySearchAndFilter เพื่อแสดงข้อมูลเมื่อโหลดหน้าแรก
+};
+
+
+
 
