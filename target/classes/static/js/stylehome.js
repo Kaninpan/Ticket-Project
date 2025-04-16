@@ -401,6 +401,55 @@ window.onload = function () {
     applySearchAndFilter(); // เรียกใช้ applySearchAndFilter เพื่อแสดงข้อมูลเมื่อโหลดหน้าแรก
 };
 
+// =====================================================================================================
+function openContactInfo() {
+    var myWindow = window.open("", "", "width=550,height=280");
 
+    myWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="th">
+    <head>
+        <meta charset="UTF-8">
+        <title>ติดต่อ / สอบถาม</title>
+        <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Prompt', sans-serif;
+                padding: 20px;
+                line-height: 1.8;
+                color: #333;
+            }
+            h2 {
+                font-size: 22px;
+                color: #222;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 16px;
+                margin: 10px 0;
+            }
+            strong {
+                color: #007bff;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>ติดต่อสอบถามเพิ่มเติมได้ที่</h2>
+        <p><strong>เบอร์โทร : </strong> 01-223-442 ต่อ 566</p>
+        <p><strong>ไลน์ : </strong> ITsupportABC</p>
+        <p><strong>อีเมล : </strong> example.abc@itabc.com</p>
 
+        <script>
+            // ป้องกันการรีเฟรชด้วย F5 หรือ Ctrl+R
+            document.addEventListener('keydown', function(event) {
+                if ((event.key === 'F5') || (event.ctrlKey && event.key === 'r')) {
+                    event.preventDefault();
+                    alert('ไม่สามารถรีเฟรชหน้าต่างนี้ได้');
+                }
+            });
+        </script>
+    </body>
+    </html>
+    `);
+}
 

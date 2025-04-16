@@ -86,7 +86,20 @@ public class UserController {
         }
         return "home/login";
     }
+    @GetMapping("/guide")
+    public String showGuide() {
+        return "home/guide";
+    }
 
+    @GetMapping("/faq")
+    public String showFaq() {
+        return "home/faq";
+    }
+
+    @GetMapping("/useaiinwork")
+    public String showAi() {
+        return "home/useaiinwork";
+    }
 
 //    @GetMapping("/home")
 //    public String home() {
