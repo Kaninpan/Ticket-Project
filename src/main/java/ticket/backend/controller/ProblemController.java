@@ -1,13 +1,11 @@
 package ticket.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ticket.backend.entity.ProblemEntity;
@@ -108,16 +106,33 @@ public class ProblemController {
         return "home/report-problem";
     }
 
+    @PostMapping("/report-problem")
+    public String cancelProblem(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            ProblemEntity problem = problemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid problem id: " + id));
+
+            // ตรวจสอบสถานะปัญหาก่อนการยกเลิก
+            if (problem.getStatusProblem() == 1) { // ถ้าสถานะเป็น 1 (รอการแก้ไข) เท่านั้นที่สามารถยกเลิกได้
+                problem.setStatusProblem(9); // เปลี่ยนสถานะเป็น 9 (ยกเลิก)
+                problemRepository.save(problem);
+                redirectAttributes.addFlashAttribute("success", "ยกเลิกการแจ้งปัญหาสำเร็จ");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "ไม่สามารถยกเลิกได้ เนื่องจากสถานะไม่ตรง");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "เกิดข้อผิดพลาดในการยกเลิกการแจ้งปัญหา: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "redirect:/report-problem";
+    }
 
     @GetMapping("/home")
     public String showHomePage(Model model) {
-        long pendingCount = problemService.getCountByStatusProblem(1);
-        long inProgressCount = problemService.getCountByStatusProblem(2);
-        long resolvedCount = problemService.getCountByStatusProblem(3);
-        long totalCount = pendingCount + inProgressCount + resolvedCount;
-
-
-//        String successMessage = "เข้าสู่ระบบสำเร็จ";
+        long pendingCount = problemService.getCountByStatusProblem(1); // ปัญหาที่รอการแก้ไข
+        long inProgressCount = problemService.getCountByStatusProblem(2); // ปัญหาที่กำลังดำเนินการ
+        long resolvedCount = problemService.getCountByStatusProblem(3); // ปัญหาที่แก้ไขเสร็จสิ้น
+        long canceledCount = problemService.getCountByStatusProblem(9); // ปัญหาที่ยกเลิกจากผู้ใช้งาน
+        long totalCount = pendingCount + inProgressCount + resolvedCount + canceledCount; // คำนวณรวมทั้งหมด
 
         LocalDate today = LocalDate.now();
         Locale thaiLocale = new Locale("th", "TH");
@@ -128,12 +143,13 @@ public class ProblemController {
         model.addAttribute("pendingCount", pendingCount);
         model.addAttribute("inProgressCount", inProgressCount);
         model.addAttribute("resolvedCount", resolvedCount);
+        model.addAttribute("canceledCount", canceledCount); // เพิ่มข้อมูลนี้
         model.addAttribute("totalCount", totalCount);
-//        model.addAttribute("success", successMessage);
         model.addAttribute("updateDate", formattedDate);
 
         return "home/home";
     }
+
 
 
 }

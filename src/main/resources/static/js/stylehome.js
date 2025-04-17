@@ -453,3 +453,25 @@ function openContactInfo() {
     `);
 }
 
+// =====================================================================================================
+// ยกเลิกการแจ้งปัญหา
+function confirmCancel(button) {
+    const problemId = button.getAttribute('data-id');
+    const modal = new bootstrap.Modal(document.getElementById('confirmCancelModal'));
+    const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+
+    modal.show();
+
+    confirmCancelBtn.onclick = function() {
+        document.getElementById('cancelProblemId').value = problemId;
+        document.getElementById('cancelForm').submit();  // ใช้ POST ไปที่ Controller
+    };
+}
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+});
+

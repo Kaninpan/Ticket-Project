@@ -19,6 +19,7 @@
   <h1 class="h5 mb-0"><b>ระบบแจ้งปัญหาการใช้งาน</b></h1>
 </div>
 
+
 <!-- Menu Bar -->
 <div>
   <div th:replace="~{fragments/mmenubar :: mmenubar}"></div>
@@ -29,42 +30,57 @@
   <h2>ยินดีต้อนรับ!</h2>
   <p>คุณได้เข้าสู่ระบบสำเร็จ</p>
 
+  <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
+    <p th:text="${success}"></p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
   <!-- Status Section -->
   <div class="row">
     <div class="row mt-4">
-    <h4>สรุปยอดการแจ้งปัญหาการใช้งาน</h4>
+      <h4>สรุปยอดการแจ้งปัญหาการใช้งาน</h4>
     </div>
-    <div class="col-md-4">
+
+    <!-- แถวแรก 3 ข้อมูล -->
+    <div class="col-md-4 mb-3">
       <div class="alert alert-info p-4 h-100" style="font-size: 1.3rem;">
         <strong>ปัญหาที่รอการแก้ไข : </strong> <span th:text="${pendingCount}">0</span> รายการ
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3">
       <div class="alert alert-warning p-4 h-100" style="font-size: 1.3rem;">
         <strong>ปัญหาที่กำลังดำเนินการ : </strong> <span th:text="${inProgressCount}">0</span> รายการ
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3">
       <div class="alert alert-success p-4 h-100" style="font-size: 1.30rem;">
         <strong>ปัญหาที่แก้ไขเสร็จสิ้น : </strong> <span th:text="${resolvedCount}">0</span> รายการ
       </div>
     </div>
+
   </div>
 
-  <!-- Total Issues Section -->
-  <div class="row mt-4">
-    <div class="col-4">
-      <div class="alert alert-secondary p-4" style="font-size: 1.30rem;">
-        <strong>รวมรายการแจ้งปัญหาทั้งหมด : </strong> <span th:text="${totalCount}">0</span> รายการ
-      </div>
-      <div class="row mt-6">
-        <p class="text-muted p-4">ข้อมูลอัพเดท ณ วันที่ <span th:text="${updateDate}"></span></p>
+  <!-- แถวที่สอง 2 ข้อมูล -->
+  <div class="row mt-3">
+    <div class="col-md-6 mb-3">
+      <div class="alert alert-danger p-4 h-100" style="font-size: 1.30rem;">
+        <strong>ปัญหาที่ยกเลิกจากผู้ใช้งาน : </strong> <span th:text="${canceledCount}">0</span> รายการ
       </div>
     </div>
-  </div>
+    <div class="col-md-6 mb-3">
+      <div class="alert alert-secondary p-4 h-100" style="font-size: 1.30rem;">
+        <strong>รวมรายการแจ้งปัญหาทั้งหมด : </strong> <span th:text="${totalCount}">0</span> รายการ
+      </div>
+    </div>
+    <!-- ข้อมูลอัพเดท -->
+    <div class="row mt-1">
+      <p class="text-muted p-6">ข้อมูลอัพเดท ณ วันที่ <span th:text="${updateDate}"></span></p>
+    </div>
+</div>
 
   <!-- News Section (Moved to bottom) -->
-  <div class="row mt-4">
+  <!-- News Section (Moved to bottom) -->
+  <div class="row mt-1">
     <div class="col-12">
       <div class="p-4" style="background-color: #585858; color: #ffffff; border-radius: 0.5rem;">
         <h5 class="mb-4">เว็บไซต์ข่าวสารต่าง ๆ</h5>
@@ -89,7 +105,6 @@
               <img src="/photo/PRD.png" alt="PRD" style="max-height: 86px;">
             </a>
           </div>
-          <!-- เพิ่มช่องใหม่ที่นี่ -->
           <div>
             <a href="https://www.1111.go.th/" target="_blank">
               <img src="/photo/opm.png" alt="ติดต่อนายยก" style="max-height: 80px;">
@@ -99,14 +114,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Success Alert (if any) -->
-  <!-- <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
-    <p th:text="${success}"></p>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div> -->
 </div>
 
 </body>
-
 </html>
