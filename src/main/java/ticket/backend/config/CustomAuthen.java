@@ -24,10 +24,10 @@ public class CustomAuthen implements AuthenticationSuccessHandler {
 
         for (GrantedAuthority authority : authorities) {
             String role = authority.getAuthority();
-            if (role.equals("ROLE_ADMIN")) {
+            if (role.equals("Admin")) {  // ใช้บทบาทที่เก็บในฐานข้อมูล
                 response.sendRedirect("/dashboard");
                 return;
-            } else if (role.equals("ROLE_USER")) {
+            } else if (role.equals("User")) {  // ใช้บทบาทที่เก็บในฐานข้อมูล
                 response.sendRedirect("/home");
                 return;
             }

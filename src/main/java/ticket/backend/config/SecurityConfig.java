@@ -18,7 +18,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    private CustomAuthen successHandler; // <-- เพิ่มตรงนี้
+    private CustomAuthen successHandler;
 
     public SecurityConfig(@Lazy UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -34,13 +34,17 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/register", "/officer").permitAll()
+                        .requestMatchers("/problem-report","/dashboard", "/editprofile-admin").hasAuthority("Admin") //กำหนดการเข้าถึงของ Admin
+                        .requestMatchers("/home","/problem","/useaiinwork","/report-problem","/guide","/faq").hasAuthority("User") //กำหนดการเข้าถึงของ User
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
                         .requestMatchers("/fragments/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/officer")
-                        .successHandler(successHandler) //
+                        .successHandler(successHandler)
                         .failureUrl("/officer?error=true")
                         .permitAll()
                 )
@@ -54,7 +58,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

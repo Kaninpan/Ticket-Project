@@ -525,5 +525,45 @@ function changeRowsPerPage() {
     paginateTable();
 }
 // =====================================================================================================
+// อัพเดทสถานะ
+function openUpdateStatusModal(button) {
+    const id = button.getAttribute("data-id");
+    const currentStatus = button.getAttribute("data-status");
 
+    // กำหนดค่า ID ที่จะอัปเดต
+    document.getElementById("updateStatusId").value = id;
 
+    // เซ็ต dropdown ใหม่ทุกครั้งเพื่อความชัวร์
+    const select = document.getElementById("newStatus");
+    select.innerHTML = `
+        <option value="" hidden>โปรดอัพเดทสถานะการแก้ไข</option>
+        <option value="2">ปัญหาที่กำลังดำเนินการ</option>
+        <option value="3">ปัญหาที่แก้ไขเสร็จสิ้น</option>
+    `;
+
+    // ซ่อนข้อความแจ้งเตือนก่อน
+    document.getElementById("statusError").style.display = "none";
+
+    // แสดง modal
+    const modal = new bootstrap.Modal(document.getElementById("updateStatusModal"));
+    modal.show();
+}
+
+// ตรวจสอบเมื่อผู้ใช้ submit form
+document.getElementById("updateStatusForm").addEventListener("submit", function (e) {
+    const selectedValue = document.getElementById("newStatus").value;
+
+    if (!selectedValue) {
+        e.preventDefault(); // ยกเลิกการส่งฟอร์ม
+        document.getElementById("statusError").style.display = "block";
+    } else {
+        document.getElementById("statusError").style.display = "none";
+    }
+});
+
+// ถ้าผู้ใช้เปลี่ยนสถานะ ให้ซ่อนข้อความผิดพลาดอัตโนมัติ
+document.getElementById("newStatus").addEventListener("change", function () {
+    if (this.value) {
+        document.getElementById("statusError").style.display = "none";
+    }
+});
