@@ -38,8 +38,6 @@ public class SecurityConfig {
                         .requestMatchers("/home","/problem","/useaiinwork","/report-problem","/guide","/faq").hasAuthority("User") //กำหนดการเข้าถึงของ User
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
                         .requestMatchers("/fragments/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
