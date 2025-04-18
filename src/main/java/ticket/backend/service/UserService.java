@@ -1,13 +1,16 @@
 package ticket.backend.service;
 
 ;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Lazy;
+import ticket.backend.entity.ProblemEntity;
 import ticket.backend.entity.UserEntity;
+import ticket.backend.repository.ProblemRepository;
 import ticket.backend.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -17,6 +20,8 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private ProblemRepository problemRepository;
 
     public UserService(UserRepository userRepository, @Lazy BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -63,5 +68,8 @@ public class UserService implements UserDetailsService {
         }
         userRepository.updateLastLogin(username, LocalDateTime.now());
         return new UserDetailsImpl(userEntity);
+    }
+    public long getCountByStatusProblem(Integer statusProblem) {
+        return problemRepository.countByStatusProblem(statusProblem);
     }
 }

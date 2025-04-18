@@ -31,7 +31,9 @@ public class UserDetailsImpl implements UserDetails {
         return userEntity.getUsername();
     }
 
+
+    public UserEntity getUserEntity() {
+        return this.userEntity;
+    }
 }
-
-
 

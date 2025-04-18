@@ -43,16 +43,26 @@
 
     <div class="table-responsive">
         <div id="resultCount" class="mb-3 text-muted">มีทั้งหมด 0 รายการ</div>
-        <table class="table table-bordered table-hover align-middle" id="problemsTable">
+        <div class="d-flex align-items-center">
+            <label for="rowsPerPageSelect" class="me-2 mb-0">แสดง :</label>
+            <select id="rowsPerPageSelect" class="form-select" style="width: auto;" onchange="changeRowsPerPage()">
+                <option value="10">10 รายการ</option>
+                <option value="20">20 รายการ</option>
+                <option value="50">50 รายการ</option>
+                <option value="100">100 รายการ</option>
+                <option value="200">200 รายการ</option>
+            </select>
+        </div>
+        <table class="table table-bordered table-hover align-middle mt-3" id="problemsTable">
             <thead class="table-light">
             <tr>
-                <th>ลำดับ</th>
+                <th onclick="sortTable(0)">ลำดับ <i class="bi bi-arrow-down-up"></i></th>
                 <th>ชื่อ</th>
                 <th>ประเภทปัญหา</th>
                 <th>รายละเอียด</th>
                 <th>รูปภาพ</th>
                 <th>สถานะ</th>
-                <th>วันที่แจ้ง</th>
+                <th onclick="sortTable(6)">วันที่แจ้ง <i class="bi bi-arrow-down-up"></i></th>
                 <th>ตัวเลือก</th>
             </tr>
             </thead>

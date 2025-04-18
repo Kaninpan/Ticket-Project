@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าแรก </title>
+    <link rel="stylesheet" type="text/css" href="/css/stylehome1.css">
+    <script src="/js/stylehome.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- Header Section -->
+<div class="header d-flex align-items-center justify-content-between px-3">
+    <button class="toggle-sidebar-btn btn btn-light">☰</button>
+    <h1 class="h5 mb-0"><b>ระบบแจ้งปัญหาการใช้งาน</b></h1>
+</div>
+
+
+<!-- Menu Bar -->
+<div>
+    <div th:replace="~{fragments/mmenubaradmin :: mmenubaradmin}"></div>
+</div>
+
+<!-- Main Content -->
+<div class="content">
+    <h2>ยินดีต้อนรับ!</h2>
+    <p>คุณได้เข้าสู่ระบบสำเร็จ</p>
+
+    <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
+        <p th:text="${success}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Status Section -->
+    <div class="row">
+        <div class="row mt-4">
+            <h4>สรุปยอดการแจ้งปัญหาการใช้งาน</h4>
+        </div>
+
+        <!-- แถวแรก 3 ข้อมูล -->
+        <div class="col-md-4 mb-3">
+            <div class="alert alert-info p-4 h-100" style="font-size: 1.3rem;">
+                <strong>ปัญหาที่รอการแก้ไข : </strong> <span th:text="${pendingCount}">0</span> รายการ
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="alert alert-warning p-4 h-100" style="font-size: 1.3rem;">
+                <strong>ปัญหาที่กำลังดำเนินการ : </strong> <span th:text="${inProgressCount}">0</span> รายการ
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="alert alert-success p-4 h-100" style="font-size: 1.30rem;">
+                <strong>ปัญหาที่แก้ไขเสร็จสิ้น : </strong> <span th:text="${resolvedCount}">0</span> รายการ
+            </div>
+        </div>
+
+    </div>
+
+    <!-- แถวที่สอง 2 ข้อมูล -->
+    <div class="row mt-3">
+        <div class="col-md-6 mb-3">
+            <div class="alert alert-danger p-4 h-100" style="font-size: 1.30rem;">
+                <strong>ปัญหาที่ยกเลิกจากผู้ใช้งาน : </strong> <span th:text="${canceledCount}">0</span> รายการ
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="alert alert-secondary p-4 h-100" style="font-size: 1.30rem;">
+                <strong>รวมรายการแจ้งปัญหาทั้งหมด : </strong> <span th:text="${totalCount}">0</span> รายการ
+            </div>
+        </div>
+        <!-- ข้อมูลอัพเดท -->
+        <div class="row mt-1">
+            <p class="text-muted p-6">ข้อมูลอัพเดท ณ วันที่ <span th:text="${updateDate}"></span></p>
+        </div>
+        <!-- แผนภูมิ (Chart.js) -->
+        <div class="row mt-4">
+            <h5>แผนภูมิการแจ้งปัญหาการใช้งาน</h5>
+            <div class="col-12">
+                <canvas id="problemChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ctx = document.getElementById('problemChart').getContext('2d');
+
+    // คำนวณเปอร์เซ็นต์ของแต่ละหมวดหมู่
+    var total = [[${pendingCount}]] + [[${inProgressCount}]] + [[${resolvedCount}]] + [[${canceledCount}]];
+    var pendingPercentage = ([[${pendingCount}]] / total) * 100;
+    var inProgressPercentage = ([[${inProgressCount}]] / total) * 100;
+    var resolvedPercentage = ([[${resolvedCount}]] / total) * 100;
+    var canceledPercentage = ([[${canceledCount}]] / total) * 100;
+
+    var problemChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['รอการแก้ไข', 'กำลังดำเนินการ', 'แก้ไขเสร็จสิ้น', 'ยกเลิก'],
+            datasets: [{
+                label: 'สถานะปัญหาการใช้งาน',
+                data: [pendingPercentage, inProgressPercentage, resolvedPercentage, canceledPercentage], // ข้อมูลเปอร์เซ็นต์
+                backgroundColor: [
+                    'rgba(0, 123, 255, 0.5)', // สีสำหรับแต่ละหมวดหมู่
+                    'rgba(255, 193, 7, 0.5)',
+                    'rgba(40, 167, 69, 0.5)',
+                    'rgba(220, 53, 69, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(0, 123, 255, 1)',
+                    'rgba(255, 193, 7, 1)',
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(220, 53, 69, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        // แสดงเปอร์เซ็นต์ใน Tooltip
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+                        }
+                    }
+                },
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

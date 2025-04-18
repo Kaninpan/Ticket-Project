@@ -304,7 +304,7 @@ window.onload = function () {
 
 // =====================================================================================================
 let currentPage = 1;
-const rowsPerPage = 10;
+let rowsPerPage = 10;
 
 let filteredRows = []; // เพื่อเก็บข้อมูลที่ผ่านการกรองแล้ว
 
@@ -474,4 +474,56 @@ function confirmCancel(button) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 });
+// =====================================================================================================
+// เก่า ไป ใหม่ ใหม่ ไป เก่า
+let sortDirection = {}; // ใช้เก็บสถานะการ sort ของแต่ละ column
+
+function sortTable(colIndex) {
+    const table = document.getElementById("problemsTable");
+    const rows = Array.from(table.querySelectorAll("tbody > tr"));
+    const isDateColumn = colIndex === 6;
+    const isNumberColumn = colIndex === 0;
+
+    // Toggle direction
+    sortDirection[colIndex] = !sortDirection[colIndex];
+
+    rows.sort((a, b) => {
+        let valA = a.children[colIndex].textContent.trim();
+        let valB = b.children[colIndex].textContent.trim();
+
+        if (isDateColumn) {
+            // แปลงวันที่ (dd/MM/yyyy HH:mm) ให้เปรียบเทียบได้
+            const parseDate = (str) => {
+                const [d, m, yTime] = str.split("/");
+                const [y, time] = yTime.split(" ");
+                return new Date(`${y}-${m}-${d}T${time}`);
+            };
+            valA = parseDate(valA);
+            valB = parseDate(valB);
+        } else if (isNumberColumn) {
+            valA = parseInt(valA);
+            valB = parseInt(valB);
+        }
+
+        if (valA < valB) return sortDirection[colIndex] ? -1 : 1;
+        if (valA > valB) return sortDirection[colIndex] ? 1 : -1;
+        return 0;
+    });
+
+    // ล้าง tbody แล้วแสดงแถวใหม่ที่เรียงแล้ว
+    const tbody = table.querySelector("tbody");
+    tbody.innerHTML = "";
+    rows.forEach(row => tbody.appendChild(row));
+}
+// =====================================================================================================
+// showdata
+function changeRowsPerPage() {
+    const select = document.getElementById('rowsPerPageSelect');
+    const selectedValue = parseInt(select.value);
+    rowsPerPage = selectedValue;
+    currentPage = 1;
+    paginateTable();
+}
+// =====================================================================================================
+
 

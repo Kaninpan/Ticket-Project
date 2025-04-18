@@ -1,5 +1,6 @@
 package ticket.backend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,9 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
+    @Autowired
+    private CustomAuthen successHandler; // <-- เพิ่มตรงนี้
+
     public SecurityConfig(@Lazy UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
@@ -30,13 +34,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/register", "/officer").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**","/uploads/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
                         .requestMatchers("/fragments/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/officer")
-                        .defaultSuccessUrl("/home", true)
+                        .successHandler(successHandler) //
                         .failureUrl("/officer?error=true")
                         .permitAll()
                 )
