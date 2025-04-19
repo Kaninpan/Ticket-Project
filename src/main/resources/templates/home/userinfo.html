@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลผู้ใช้งาน</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylehome1.css">
+    <script src="/js/stylehome.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+
+<!-- Header -->
+<div class="header d-flex align-items-center justify-content-between px-3">
+    <button class="toggle-sidebar-btn btn btn-light">☰</button>
+    <h1 class="h5 mb-0"><b>ระบบแจ้งปัญหาการใช้งาน</b></h1>
+</div>
+
+<!-- เมนูฝั่งซ้าย -->
+<div>
+    <div th:replace="~{fragments/mmenubaradmin :: mmenubaradmin}"></div>
+</div>
+
+<div class="content px-3">
+    <h2 class="mt-3">ข้อมูลผู้ใช้งาน</h2>
+
+    <!-- แจ้งเตือน -->
+    <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
+        <p th:text="${success}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Filter & Pagination Control -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
+        <!-- ขวา -->
+        <div class="d-flex justify-content-end mb-3 mt-3 align-items-center flex-wrap gap-2 ms-auto">
+            <!-- ช่องค้นหา -->
+            <div class="d-flex align-items-center">
+                <label for="searchInput" class="me-2 mb-0">ค้นหา:</label>
+                <input type="text" id="searchInput" class="form-control" placeholder="ชื่อ, อีเมล, เบอร์, Username"
+                       style="max-width: 300px; height: 38px;">
+            </div>
+
+            <!-- เลือกสิทธิ์ -->
+            <div class="d-flex align-items-center">
+                <select id="roleFilter" class="form-select" style="width: 160px; height: 38px;">
+                    <option value="">ทั้งหมด</option>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                </select>
+            </div>
+
+            <!-- เลือกสถานะ -->
+            <div class="d-flex align-items-center">
+                <select id="statusFilter" class="form-select" style="width: 160px; height: 38px;">
+                    <option value="">ทั้งหมด</option>
+                    <option value="1">ใช้งาน</option>
+                    <option value="9">ปิดบัญชี</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- ซ้าย -->
+    <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+        <!-- กลุ่มซ้าย -->
+        <div class="d-flex flex-column align-items-start">
+            <p id="summaryText" class="mb-1 me-3">มีทั้งหมด 0 รายการ - แสดงหน้า 1 จาก 1</p>
+            <div class="mb-2">
+                <label for="itemsPerPage" class="form-label mb-0 me-1">แสดง:</label>
+                <select id="itemsPerPage" class="form-select d-inline-block w-auto">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- กลุ่มขวา -->
+        <div>
+            <button id="addUserBtn" class="btn btn-primary ms-2">
+                <a th:href="@{/insert-info-us}" class="text-decoration-none text-white">
+                    <i class="bi bi-person-plus"></i> เพิ่มผู้ใช้งาน
+                </a>
+            </button>
+            <button id="exportExcelBtn" class="btn btn-success">
+                <i class="bi bi-file-earmark-excel"></i> Export Excel
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ตารางข้อมูลผู้ใช้งาน -->
+    <div style="overflow-x: auto;">
+        <table class="table table-bordered table-hover align-middle mt-3" id="usersTable">
+        <thead class="table-light">
+        <tr>
+            <th>ลำดับ</th>
+            <th>ชื่อ-นามสกุล</th>
+            <th>อีเมล</th>
+            <th>เบอร์โทร</th>
+            <th>ชื่อผู้ใช้งาน</th>
+            <th>สิทธิ์เข้าใช้งาน</th>
+            <th>เข้าใช้งานล่าสุด</th>
+            <th>สถานะ</th>
+            <th>ตัวเลือก</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, iterStat : ${users}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${user.firstName + ' ' + user.lastName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.username}"></td>
+            <td>
+                <span class="badge fs-6 text-bg-secondary" th:text="${user.role}"></span>
+            </td>
+            <td th:text="${#temporals.format(user.lastLogin, 'dd/MM/yyyy HH:mm')}"></td>
+            <td>
+                <span th:switch="${user.statusId}">
+                    <span th:case="1" class="badge fs-6 text-bg-success">ใช้งาน</span>
+                    <span th:case="9" class="badge fs-6 text-bg-danger">ปิดบัญชี</span>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <div id="paginationControls" class="d-flex justify-content-center gap-2 mt-3"></div>
+</div>
+</body>
+</html>
+<script>
+    document.getElementById("exportExcelBtn").addEventListener("click", function() {
+    window.location.href = "/export-excel";
+});
+</script>
+<script src="/js/stylehome1.js"></script>

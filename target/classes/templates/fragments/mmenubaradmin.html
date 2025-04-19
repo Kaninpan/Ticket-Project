@@ -7,6 +7,7 @@
     <script src="/js/stylehome.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 <div th:fragment="mmenubaradmin">
@@ -21,20 +22,25 @@
                     <a class="nav-link" href="/problem-report">รายงานและอนุมัติ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href=""></a>
+                    <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#userSubmenu" role="button" aria-expanded="false" aria-controls="userSubmenu">
+                        <span>ผู้ใช้งาน</span>
+                    </a>
+                    <div class="collapse" id="userSubmenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users">ข้อมูลผู้ใช้งาน</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/insert-info-us">เพิ่มผู้ใช้งาน</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
+
         <div th:replace="~{fragments/logout-admin :: logout-admin}"></div>
+
     </div>
 </div>
 </body>

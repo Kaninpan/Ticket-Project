@@ -548,7 +548,7 @@ function openUpdateStatusModal(button) {
     const modal = new bootstrap.Modal(document.getElementById("updateStatusModal"));
     modal.show();
 }
-
+// =====================================================================================================
 // ตรวจสอบเมื่อผู้ใช้ submit form
 document.getElementById("updateStatusForm").addEventListener("submit", function (e) {
     const selectedValue = document.getElementById("newStatus").value;
@@ -567,4 +567,5 @@ document.getElementById("newStatus").addEventListener("change", function () {
         document.getElementById("statusError").style.display = "none";
     }
 });
+
 

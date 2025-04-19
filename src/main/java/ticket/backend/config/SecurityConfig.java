@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/register", "/officer").permitAll()
-                        .requestMatchers("/problem-report","/dashboard", "/editprofile-admin").hasAuthority("Admin") //กำหนดการเข้าถึงของ Admin
+                        .requestMatchers("/problem-report","/dashboard", "/editprofile-admin","/users","/insert-info-us").hasAuthority("Admin") //กำหนดการเข้าถึงของ Admin
                         .requestMatchers("/home","/problem","/useaiinwork","/report-problem","/guide","/faq").hasAuthority("User") //กำหนดการเข้าถึงของ User
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
                         .requestMatchers("/fragments/**").permitAll()

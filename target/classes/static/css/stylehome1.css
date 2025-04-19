@@ -206,3 +206,13 @@ input[type="password"]:focus {
     height: auto; /* ปรับอัตโนมัติตามอัตราส่วน */
     max-height: 350px; /* จำกัดขนาดสูงสุดเพื่อให้ไม่ใหญ่เกินไป */
 }
+
+
+input[type="email"] {
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease; 
+}

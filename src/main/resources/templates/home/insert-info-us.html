@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพิ่มข้อมูลผู้ใช้งาน</title>
+    <link rel="stylesheet" href="/css/stylehome1.css">
+    <script src="/js/stylehome.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="header d-flex align-items-center justify-content-between px-3">
+    <button class="toggle-sidebar-btn btn btn-light">☰</button>
+    <h1 class="h5 mb-0"><b>ระบบแจ้งปัญหาการใช้งาน</b></h1>
+</div>
+
+<div>
+    <div th:replace="~{fragments/mmenubaradmin :: mmenubaradmin}"></div>
+</div>
+
+<div class="content px-3">
+    <h2 class="mt-3">เพิ่มข้อมูลผู้ใช้งาน</h2>
+
+    <!-- แจ้งเตือน -->
+    <div class="alert alert-success alert-dismissible fade show" th:if="${success}" id="successAlert">
+        <p th:text="${success}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible fade show" th:if="${error}" id="errorAlert">
+        <p th:text="${error}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Form -->
+    <form id="userForm" th:action="@{/insert-info-us}" th:object="${user}" method="post" class="mt-4">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>ชื่อ</label>
+                <input type="text" th:field="*{firstName}" placeholder="กรอกชื่อ" required maxlength="60" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>นามสกุล</label>
+                <input type="text" th:field="*{lastName}" placeholder="กรอกนามสกุล" required maxlength="60" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>อีเมล</label>
+                <input type="email" th:field="*{email}" placeholder="กรุณากรอกอีเมล (Email) ของคุณ" required maxlength="60"/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>เบอร์โทรติดต่อ</label>
+                <input type="text" th:field="*{phoneNumber}" required maxlength="12" placeholder="กรุณากรอกเบอร์โทรศัพท์ของคุณ" oninput="formatPhone(this)" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>ชื่อผู้ใช้ / Username</label>
+                <input type="text" th:field="*{username}" required minlength="5" placeholder="กรุณากรอกชื่อผู้ใช้ (Username) ของคุณ" oninput="validateUsername(this)" maxlength="15" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>รหัสผ่าน / Password</label>
+                <input type="password" th:field="*{password}" id="password" required
+                       placeholder="กรุณากรอกรหัสผ่าน (Password) ของท่าน"
+                       pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
+                       title="รหัสผ่านต้องมีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ 1 ตัว, อักขระพิเศษ 1 ตัว, ตัวเลข, และต้องมีความยาว 8 ตัวขึ้นไป ยกตัวอย่าง Abcde@12" maxlength="20" />
+            </div>
+        </div>
+
+        <button type="button" class="submit-button" id="submitButton">เพิ่มผู้ใช้งาน</button>
+        <a href="/users" class="secondary-button">ย้อนกลับ</a>
+    </form>
+    <!-- Modal Confirmation -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">ยืนยันการเพิ่มผู้ใช้งาน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>คุณแน่ใจหรือไม่ว่า การกรอกข้อมูลเพิ่มผู้ใช้งานของคุณถูกต้อง?<br>หากถูกต้องกดที่ปุ่ม <b>ยืนยันเพิ่มผู้ใช้งาน</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="confirmSubmit">ยืนยันเพิ่มผู้ใช้งาน</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="mt-5">รายละเอียดการกรอกข้อมูลผู้ใช้งานมีดังนี้</h4>
+    <ul class="text-muted" style="font-size: 0.95rem;">
+        <li>
+            1. กรอก <b>ชื่อ - นามสกุล</b> ที่ถูกต้องของผู้ใช้งาน
+        </li>
+        <li>
+            2. <b>กรอกอีเมลและเบอร์โทร</b> ที่ถูกต้องเพื่อใช้ในการติดต่อผู้ใช้งาน
+        </li>
+        <li>
+            3. <b>กรอกรายละเอียดชื่อผู้ใช้ (Username)</b> ให้ถูกต้อง เพื่อใช้ในการล็อกอินเข้าสู่ระบบ
+        </li>
+        <li>
+            4. การกรอกรหัสผ่าน <b>ต้องมีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ 1 ตัว, อักขระพิเศษ 1 ตัว, ตัวเลข</b>
+            และ <b>ต้องมีความยาวอย่างน้อย 8 ตัว</b>
+            <br><b>ตัวอย่าง:</b> <code>Abcde@12</code> (ผู้ใช้ใหม่สามารถใช้รหัสผ่านนี้ชั่วคราวได้ ผู้ใช้งานจะดำเนินการเปลี่ยนรหัสผ่านอีกครั้ง)
+        </li>
+        <li>
+            5. กดปุ่ม <b>ยืนยันการเพิ่มผู้ใช้งาน</b> ระบบจะแสดงกล่องยืนยัน หากมั่นใจแล้วให้กด <b>ยืนยันเพิ่มผู้ใช้งาน</b> อีกครั้ง
+        </li>
+    </ul>
+</div>
+
+<script>
+    document.getElementById("submitButton").addEventListener("click", function () {
+        const form = document.getElementById("userForm");
+
+        if (form.checkValidity()) {
+            var modal = new bootstrap.Modal(document.getElementById("confirmationModal"));
+            modal.show();
+        } else {
+            form.reportValidity();
+        }
+    });
+
+    document.getElementById("confirmSubmit").addEventListener("click", function () {
+        document.getElementById("userForm").submit();
+    });
+
+</script>
+</body>
+</html>
