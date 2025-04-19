@@ -71,7 +71,7 @@
                 <td th:text="${iterStat.count}" class="text-center"></td>
                 <td th:text="${item.firstName + ' ' + item.lastName}"></td>
                 <td th:text="${item.issueType}"></td>
-                <td th:text="${item.description}"></td>
+                <td th:text="${item.description}" style="white-space: pre-wrap; word-wrap: break-word; max-width: 300px;"></td>
                 <td>
                     <button th:if="${item.profileImage != null and item.profileImage != ''}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal" th:data-image="@{/uploads/{file}(file=${item.profileImage})}">
                         แสดงรูปภาพ
