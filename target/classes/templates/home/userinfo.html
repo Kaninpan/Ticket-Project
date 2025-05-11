@@ -31,6 +31,7 @@
         <p th:text="${success}"></p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
 
     <!-- Filter & Pagination Control -->
     <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
@@ -127,6 +128,11 @@
                     <span th:case="9" class="badge fs-6 text-bg-danger">ปิดบัญชี</span>
                 </span>
             </td>
+            <td>
+                <a th:href="@{'/edit-user/' + ${user.userId}}" class="btn btn-warning btn-sm">
+                    <i class="bi bi-pencil"></i> แก้ไขข้อมูล
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -139,5 +145,24 @@
     document.getElementById("exportExcelBtn").addEventListener("click", function() {
     window.location.href = "/export-excel";
 });
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                let opacity = 1;
+                let fadeInterval = setInterval(function () {
+                    if (opacity <= 0.1) {
+                        clearInterval(fadeInterval);
+                        alert.remove();
+                    } else {
+                        opacity -= 0.1;
+                        alert.style.opacity = opacity;
+                    }
+                }, 15);
+            });
+        }, 3000);
+        document.getElementById("confirmSubmitBtn").addEventListener("click", function () {
+            document.getElementById("editUserForm").submit();
+        });
+    });
 </script>
 <script src="/js/stylehome1.js"></script>

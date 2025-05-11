@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ticket.backend.entity.UserEntity;
 import ticket.backend.service.AddusersService;
 
-@Controller // เพิ่ม @Controller ที่นี่
+@Controller
 public class AdduserController {
 
     private final AddusersService addusersService;

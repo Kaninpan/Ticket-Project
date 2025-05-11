@@ -9,6 +9,7 @@ import ticket.backend.repository.UserinfoRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,6 +21,30 @@ public class UserinfoService {
     public List<UserEntity> getAllUsers() {
         return userinfoRepository.findAll();
     }
+
+
+    public UserEntity getUserById(Long id) {
+        return userinfoRepository.findById(id).orElse(null);
+    }
+
+    public void updateUser(UserEntity updatedUser) {
+        UserEntity existingUser = userinfoRepository.findById(updatedUser.getUserId()).orElse(null);
+        if (existingUser != null) {
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+            existingUser.setRole(updatedUser.getRole());
+            existingUser.setStatusId(updatedUser.getStatusId());
+            existingUser.setUpdateDate(LocalDateTime.now());
+            userinfoRepository.save(existingUser);
+        }
+    }
+    public boolean isEmailDuplicate(String email, Long userId) {
+        return userinfoRepository.findAll().stream()
+                .anyMatch(user -> user.getEmail().equalsIgnoreCase(email) && !user.getUserId().equals(userId));
+    }
+
 
     public byte[] exportUsersToExcel() throws IOException {
         List<UserEntity> users = userinfoRepository.findAll();

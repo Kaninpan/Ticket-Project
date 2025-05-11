@@ -72,6 +72,14 @@
                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
                        title="รหัสผ่านต้องมีตัวอักษรภาษาอังกฤษพิมพ์ใหญ่ 1 ตัว, อักขระพิเศษ 1 ตัว, ตัวเลข, และต้องมีความยาว 8 ตัวขึ้นไป ยกตัวอย่าง Abcde@12" maxlength="20" />
             </div>
+            <div class="col-md-6 mb-3">
+                <label>สิทธิ์ผู้ใช้งาน</label>
+                <select th:field="*{role}" class="form-select" required>
+                    <option value="" hidden>-- กรุณาเลือกสิทธิ์ผู้ใช้งาน --</option>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                </select>
+            </div>
         </div>
 
         <button type="button" class="submit-button" id="submitButton">เพิ่มผู้ใช้งาน</button>

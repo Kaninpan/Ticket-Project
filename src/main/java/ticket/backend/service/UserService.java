@@ -64,7 +64,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByUsername(username);
         if (userEntity == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("ไม่พบผู้ใช้งานบัญชีนี้");
+        }
+        if (userEntity.getStatusId() == null || userEntity.getStatusId() != 1) {
+            throw new UsernameNotFoundException("บัญชีผู้ใช้นี้ถูกปิดใช้งานหรือถูกระงับ โปรดติดต่อเจ้าหน้าที่หากต้องการกลับมาใช้งาน");
         }
         userRepository.updateLastLogin(username, LocalDateTime.now());
         return new UserDetailsImpl(userEntity);

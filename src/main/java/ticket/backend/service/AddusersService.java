@@ -34,7 +34,9 @@ public class AddusersService {
         userEntity.setUpdateBy(1);
         userEntity.setStatusId(1);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        userEntity.setRole("Admin");
+        if (userEntity.getRole() == null || userEntity.getRole().isEmpty()) {
+            userEntity.setRole("User");
+        }
         adduserRepository.save(userEntity);
     }
 }

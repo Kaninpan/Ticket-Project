@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ticket.backend.entity.UserEntity;
 import ticket.backend.service.UserinfoService;
 
@@ -33,6 +36,28 @@ public class UserinfoController {
         model.addAttribute("users", filteredUsers);
         return "home/userinfo";
     }
+
+
+    @GetMapping("/edit-user/{id}")
+    public String editUserForm(@PathVariable Long id, Model model) {
+        UserEntity user = userinfoService.getUserById(id);
+        model.addAttribute("user", user);
+        return "home/edit-user";
+    }
+
+    @PostMapping("/update-user")
+    public String updateUser(UserEntity updatedUser, RedirectAttributes redirectAttributes) {
+        if (userinfoService.isEmailDuplicate(updatedUser.getEmail(), updatedUser.getUserId())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "ไม่สามารถดำเนินการได้ เนื่องจากมีอีเมลนี้ใช้งานอยู่แล้ว");
+            return "redirect:/edit-user/" + updatedUser.getUserId();
+        }
+
+        userinfoService.updateUser(updatedUser);
+        redirectAttributes.addFlashAttribute("successMessage", "ทำการเปลี่ยนแปลงแก้ไขข้อมูลสำเร็จ !");
+        return "redirect:/users";
+    }
+
+
 
     @GetMapping("/export-excel")
     public ResponseEntity<byte[]> exportUsersToExcel() throws IOException {
