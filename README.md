@@ -7,8 +7,8 @@
 ## ทดสอบการเข้าใช้งานระบบ 
 
       Account Admin (ผู้ดูแล) 
-      Username : -
-      Password : -
+      Username : admin
+      Password : Ticket@rep0rt
 
       ส่วนผู้ใช้งานสามารถทดลองสมัครเล่นระบบเองได้เลยครับ
       
