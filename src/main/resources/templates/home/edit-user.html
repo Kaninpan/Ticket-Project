@@ -122,10 +122,9 @@
         document.getElementById("confirmSubmitBtn").addEventListener("click", function () {
             document.getElementById("editUserForm").submit();
         });
-    });
-    document.addEventListener("DOMContentLoaded", function () {
+
         setTimeout(function () {
-            document.querySelectorAll('.alert').forEach(function(alert) {
+            document.querySelectorAll('.content .alert').forEach(function (alert) {
                 let opacity = 1;
                 let fadeInterval = setInterval(function () {
                     if (opacity <= 0.1) {
@@ -138,9 +137,6 @@
                 }, 15);
             });
         }, 3000);
-        document.getElementById("confirmSubmitBtn").addEventListener("click", function () {
-            document.getElementById("editUserForm").submit();
-        });
     });
 </script>
 </body>
