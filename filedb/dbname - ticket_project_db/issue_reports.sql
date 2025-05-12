@@ -60,7 +60,7 @@ ALTER TABLE `issue_reports`
 -- AUTO_INCREMENT for table `issue_reports`
 --
 ALTER TABLE `issue_reports`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- Constraints for dumped tables
